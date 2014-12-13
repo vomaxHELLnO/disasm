@@ -11,8 +11,8 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
 .data         
       ilgis1 DB  2 dup (0)             ;pirmo  failko duomenu ilgis (simboliu skaicius)
 	 ilgis22 DB  2 dup (0)
-      duom1  DB  30 dup (0)            ;duomenø failo pavadinimas, pasibaigiantis nuliniu simboliu (C sintakse - '\0')
-      rez    DB  30 dup (0)            ;rezultatø failo pavadinimas, pasibaigiantis nuliniu simboliu
+      duom1  DB  "duom.txt",0;30 dup (0)            ;duomenø failo pavadinimas, pasibaigiantis nuliniu simboliu (C sintakse - '\0')
+      rez    DB  "rez.txt",0;30 dup (0)            ;rezultatø failo pavadinimas, pasibaigiantis nuliniu simboliu
       skbuf1 DB  bufdydis dup (?)      ;skaitymo buferis pirmo failo
       r1buf  DB  bufdydis dup (?)      ;rasymo buferis
       r2buf  DB  bufdydis dup (?)      ;laikinas atminties buferis                                
@@ -38,7 +38,8 @@ pratimas22:
              MOV  ax, @data            ; ds registro iniciavimas                                                                                                   
              MOV  ds, ax               ; ds rodytu i duomenu segmento pradzia                          
           
-                                                                  
+             JMP nera                                                     
+             
              mov si, 80h      
              xor cx, cx        
              mov cl, es:[si]

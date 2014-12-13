@@ -11,17 +11,20 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
 .data         
       ilgis1 DB  2 dup (0)             ;pirmo  failko duomenu ilgis (simboliu skaicius)
 	 ilgis22 DB  2 dup (0)
-      duom1  DB  30 dup (0)            ;duomenø failo pavadinimas, pasibaigiantis nuliniu simboliu (C sintakse - '\0')
-      rez    DB  30 dup (0)            ;rezultatø failo pavadinimas, pasibaigiantis nuliniu simboliu
+      duom1  DB  "duom.txt", 0;30 dup (0)            ;duomenø failo pavadinimas, pasibaigiantis nuliniu simboliu (C sintakse - '\0')
+      rez    DB  "rez.txt", 0;30 dup (0)            ;rezultatø failo pavadinimas, pasibaigiantis nuliniu simboliu
       skbuf1 DB  bufdydis dup (?)      ;skaitymo buferis pirmo failo
       r1buf  DB  bufdydis dup (?)      ;rasymo buferis
       r2buf  DB  bufdydis dup (?)      ;laikinas atminties buferis                                
       d1d    DW  ?                     ;vieta, skirta saugoti duomenø failo deskriptoriaus numerá ("handle")
       rd     DW  ?                     ;vieta, skirta saugoti rezultato failo deskriptoriaus numerá     
+      fp     DW  00h                   ;file pointer, poslinkis nuo filepointerio pradzios
       cikl   DB  2     
       nusk   DB  100 dup ('$')   
       count  DB  1        
-    klRa     DB "Ivyko klaida rasant i rezultato faila", 10,13, "$"
+      MOVas  DB "MOV", 0Dh, 0Ah, "$"
+ neatpazinta DB "-", 0Dh, 0Ah, "$"
+	klRa     DB "Ivyko klaida rasant i rezultato faila", 10,13, "$"
     klUzRa   DB "ivyko klaida uzdarant rezultato faila", 10,13, "$"	
     klUzSk1  DB "Ivyko klaida uzdarant pirma duomenu faila", 10,13, "$"  
       HELPas DB  " Si programa atidaro duomenu faila, sukuriu rezultato faila."
@@ -38,6 +41,7 @@ pratimas22:
              MOV  ax, @data            ; ds registro iniciavimas                                                                                                   
              MOV  ds, ax               ; ds rodytu i duomenu segmento pradzia                          
           
+             JMP duom1atid
                                                                   
              mov si, 80h      
              xor cx, cx        
@@ -134,19 +138,7 @@ rez1atid:
              INT  21h                         ;sukuriamas failas; jei failas jau egzistuoja, visa jo informacija iðtrinama
              JC   help      ;jei kuriant failà skaitymui ávyksta klaida, nustatomas carry flag
              MOV  rd, ax                      ;atmintyje iðsisaugom rezultato failo deskriptoriaus numerá
-             
-             
-             
-ilgio1:      
 
-             MOV word ptr ilgis1, 0000h
-             MOV  al, 2
-             MOV  bx, d1d
-             MOV  cx, 0
-             MOV  dx, 0
-             MOV  ah, 42h
-             INT  21h ; seek...
-             MOV word ptr ilgis1, ax
 			 
 Ciklas:            
 
@@ -157,9 +149,8 @@ skaito1:
     mov al, 0
 	mov bx, d1d
 	mov cx, 0
-	mov dx,word ptr ilgis1
-	dec dx
-	dec ilgis1
+	mov dx, fp
+	inc fp
 	mov ah, 42h
 	int 21h ; seek... 
     
@@ -168,6 +159,8 @@ skaito1:
 	mov cx, 1
 	mov ah, 3fh
 	int 21h ; read from file... 
+    cmp ax, 0h
+    JE uzdarytiRasymui
     mov ah, 0h
     mov al, skbuf1
     mov di, ax                             
@@ -177,34 +170,18 @@ skaito1:
 
 
 
-tikrina:
-    cmp al, 8Bh
-	JE movas
+atpazinkkomanda:
+
+
+	cmp al, 8Bh
+	JE irasykMOV
+
+	JMP irasykneatpazinta
+	
 	mov ax, di
 	mov r1buf, al    
     JMP rasyk1
 	
-movas:
-
-    mov ah, 0h
-	mov al, 56h
-	push ax
-	xor ax, ax
-    INC  cikl
-	
-    mov ah, 0h
-	mov al, 4Fh
-	push ax
-	xor ax, ax
-	INC  cikl
-	
-    mov ah, 0h
-	mov al, 4Dh
-	push ax
-	xor ax, ax
-	INC  cikl
-	
-	JMP lyginti1
 rasyk1:
    
     MOV  ah, 0h
@@ -218,21 +195,26 @@ lyginti1:
 	JE  irasykifaila
     JMP ciklas 
 
+irasykMOV:
+    MOV cx, 5h
+	MOV ah, 40h
+	MOV bx, rd
+	MOV DX, offset MOVas
+	JMP irasykifaila
+	
+irasykneatpazinta:
+    MOV cx, 3h
+	MOV ah, 40h
+	MOV bx, rd
+	MOV DX, offset neatpazinta
+	JMP irasykifaila
+
  ;_______________________________________________________________________   
 irasykifaila:
-    
-    cmp cikl, 0h
-    JNA uzdarytirasymui
-    pop ax 
-    mov r1buf, al
-    MOV	cx, 1h			    ;cx - kiek baitø reikia áraðyti
-	MOV	ah, 40h	    		;21h pertraukimo duomenø áraðymo funkcijos numeris
-	MOV	bx, rd		        ;á bx áraðom rezultato failo deskriptoriaus numerá
-	MOV	dx, offset r1buf	;vieta, ið kurios raðom á failà
+
 	INT	21h        			;raðymas á failà
-	JC	klaidaRasant		;jei raðant á failà ávyksta klaida, nustatomas carry flag 
-	dec cikl
-	JMP irasykifaila                                                                                                                                                                                                                                                                                               
+	JC	klaidaRasant		;jei raðant á failà ávyksta klaida, nustatomas carry fla
+	JMP skaito1                                                                                                                                                                                                                                                                                               
 ;rezultato failo uzdarymas
   uzdarytiRasymui:
              MOV  ah, 3Eh                      ;21h pertraukimo failo uþdarymo funkcijos numeris

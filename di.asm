@@ -196,12 +196,35 @@ atpazinkkomanda:
 
 
 	cmp al, 8Bh
-	JE MOVa
+	JE MOVa    
+	
+    cmp al, 0B8h
+	JE pB8
     
     MOV DX, offset neatpazinta   
 	CALL irasyk
     JMP ciklas
     
+pB8:
+    MOV DX, offset cB8
+    MOV arw, 1000b
+    push ax
+    CALL irasyk                
+    pop  ax
+    SHL al, 5h
+    SHR al, 5h
+    mov reg, al          
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas
+
     
 MOVa:
     MOV DX, offset c8B
@@ -219,7 +242,7 @@ MOVa:
 ;PROCEDUROS
 
 skaityk1baita proc            
-    mov al, 0
+    mov al, 1
 	mov bx, d1d
 	mov cx, 0
 	mov dx, 0
@@ -266,19 +289,17 @@ add al, modrm
 mov bx, 2
 mul bx
 mov bx, ax
-mov dx, offset tmpW
 jmp cs:TblModRM[bx]    
 TblModRM dw o00, o01, o02, o03, o04, o05, o06, o07
+
 
 o00:
 mov tmpW, "[B"
 Call irasykZodi 
 mov tmpW, "X]"
 Call irasykZodi
-push dx
-mov dx, offset plus
+mov tmpB, "+"
 CALL irasykBaita
-pop dx
 mov tmpW, "[S"
 Call irasykZodi 
 mov tmpW, "I]"
@@ -289,10 +310,8 @@ mov tmpW, "[B"
 Call irasykZodi    
 mov tmpW, "X]"
 Call irasykZodi
-push dx
-mov dx, offset plus
+mov tmpB, "+"
 CALL irasykBaita
-pop dx 
 mov tmpW, "[D"
 Call irasykZodi 
 mov tmpW, "I]"
@@ -303,10 +322,8 @@ mov tmpW, "[B"
 Call irasykZodi
 mov tmpW, "P]"
 Call irasykZodi
-push dx
-mov dx, offset plus
+mov tmpB, "+"
 CALL irasykBaita
-pop dx 
 mov tmpW, "[S"
 Call irasykZodi 
 mov tmpW, "I]"
@@ -317,10 +334,8 @@ mov tmpW, "[B"
 Call irasykZodi
 mov tmpW, "P]"
 Call irasykZodi
-push dx
-mov dx, offset plus
+mov tmpB, "+"
 CALL irasykBaita
-pop dx 
 mov tmpW, "[D"
 Call irasykZodi 
 mov tmpW, "I]"
@@ -343,18 +358,21 @@ mov tmpW, "ds"
 Call irasykZodi
 mov tmpW, ":0"
 Call irasykZodi
-mov al, 00h
-;Call Writeal
-mov al, 00h
-;Call Writeal
-;mov tmpB, "h"
-;Call Writebbb 
+CALL skaityk1baita 
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita 
 ret  
 o07:
 mov tmpW, "[B"
 Call irasykZodi
 mov tmpW, "X]"
 Call irasykZodi
+
 ret  
 rasykrm endp  
  
@@ -365,7 +383,6 @@ add al, arw
 mov bx, 2
 mul bx
 mov bx, ax
-mov dx, offset tmpW
 jmp cs:TblReg[bx]    
 TblReg dw r00, r01, r02, r03, r04, r05, r06, r07
        dw r10, r11, r12, r13, r14, r15, r16, r17 
@@ -437,6 +454,7 @@ irasyk1simb:
 irasyk endp
 
 irasykZodi proc
+    mov dx, offset tmpW
     MOV cx, 1h
 	MOV ah, 40h
 	MOV bx, rd
@@ -454,6 +472,7 @@ irasykZodi proc
 irasykZodi endp
 
 irasykBaita proc
+    mov dx, offset tmpB
     MOV cx, 1h
 	MOV ah, 40h
 	MOV bx, rd
@@ -480,7 +499,39 @@ rasykkableli proc
     INT	21h
 	JC	klaidaRasant
 	ret     
-rasykkableli endp                                                        
+rasykkableli endp
+
+irasykASCIIisAL proc
+    mov bl, al    
+    shr al, 4
+    cmp al, 9                        
+    ja raide1                        ;jei al > 9 tai soka i raide
+    add al, 30h   
+    xor cx, cx
+    mov cl, al
+    jmp n2
+    raide1:     
+    add al, 37h
+    xor cx, cx  
+    mov cl, al
+    n2:
+    mov al, bl
+    shl al, 4
+    shr al, 4
+    cmp al, 9
+    ja raide2 
+    add al, 30h
+    mov ch, al
+    jmp writetmp
+    raide2:
+    add al, 37h 
+    mov ch, al
+    writetmp:   
+    mov tmpW, cx
+    Call irasykZodi    
+    ret    
+irasykASCIIisAL endp
+
  ;_______________________________________________________________________   
 irasykifaila:
 

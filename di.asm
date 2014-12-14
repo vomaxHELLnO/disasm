@@ -41,7 +41,13 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
         arw DB 0h
        kabl DB ","
        plus DB "+"
-       entr DB 0Dh, 0Ah
+       entr DB 0Dh, 0Ah  
+        c00 DB "ADD $"
+        c01 DB "ADD $"
+        c02 DB "ADD $"
+        c03 DB "ADD $"
+        c04 DB "ADD AL, $"
+        c05 DB "ADD AX, $"       
         c88 DB "Mov $"
         c89 DB "Mov $"
         c8A DB "Mov $"
@@ -75,7 +81,7 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
              
 .code                                  ; kodo segmento pradzia
 
-pratimas22:      
+disasembleris:      
                                                                                                                 
              MOV  ax, @data            ; ds registro iniciavimas                                                                                                   
              MOV  ds, ax               ; ds rodytu i duomenu segmento pradzia                          
@@ -193,8 +199,20 @@ skaito1:
 
 
 atpazinkkomanda:
-
-    cmp al, 0A1h
+    cmp al, 00h     ; ADD
+    JE  p00
+    cmp al, 01h 
+    JE  p01  
+    cmp al, 02h 
+    JE  p02  
+    cmp al, 03h 
+    JE  p03 
+    cmp al, 04h 
+    JE  p04   
+    cmp al, 05h 
+    JE  p05 
+     
+    cmp al, 0A1h    ; MOV
     JE  pA1
     
 	cmp al, 8Bh
@@ -206,7 +224,84 @@ atpazinkkomanda:
     MOV DX, offset neatpazinta   
 	CALL irasyk
     JMP ciklas
+ 
+   
+p00:
+    MOV DX, offset c00
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil      
+    JMP ciklas     
 
+p01:
+    MOV DX, offset c01
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil      
+    JMP ciklas   
+         
+p02:
+    MOV DX, offset c02
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil      
+    JMP ciklas     
+    
+p03:
+    MOV DX, offset c03
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil      
+    JMP ciklas 
+    
+p04:
+    MOV DX, offset c04
+    MOV arw, 0000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil                      
+    JMP ciklas  
+    
+p05:
+    MOV DX, offset c05
+    MOV arw, 1000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil
+    JMP ciklas               
+   
 pA1:
     MOV DX, offset cA1
     MOV arw, 0000b
@@ -896,13 +991,11 @@ irasykASCIIisAL proc
     ja raide1                        ;jei al > 9 tai soka i raide
     add al, 30h   
     xor cx, cx
-    ;mov cl, al
     mov ch, al
     jmp n2
     raide1:     
     add al, 37h
     xor cx, cx  
-    ;mov cl, al
     mov ch, al
     n2:
     mov al, bl
@@ -911,12 +1004,10 @@ irasykASCIIisAL proc
     cmp al, 9
     ja raide2 
     add al, 30h
-    ;mov ch, al
     mov cl, al
     jmp writetmp
     raide2:
     add al, 37h 
-    ;mov ch, al
     mov cl, al
     writetmp:   
     mov tmpW, cx
@@ -971,4 +1062,4 @@ klaidaUzdarantSkaitymui1:
             JMP pabaiga
 	JMP	pabaiga  
 		
-END pratimas22
+END disasembleris

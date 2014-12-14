@@ -409,8 +409,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o10neW
+CMP modrm, 10000b
+jb o10neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -434,8 +434,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o11neW
+CMP modrm, 10000b
+jb o11neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -459,8 +459,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o12neW
+CMP modrm, 10000b
+jb o12neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -484,8 +484,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o13neW
+CMP modrm, 10000b
+jb o13neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -503,8 +503,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o14neW
+CMP modrm, 10000b
+jb o14neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -522,8 +522,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o15neW
+CMP modrm, 10000b
+jb o15neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -541,8 +541,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o16neW
+CMP modrm, 10000b
+jb o16neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -560,8 +560,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o17neW
+CMP modrm, 10000b
+jb o17neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -585,8 +585,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi 
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o20neW
+CMP modrm, 10000b
+jb o20neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -610,8 +610,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o21neW
+CMP modrm, 10000b
+jb o21neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -635,8 +635,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o22neW
+CMP modrm, 10000b
+jb o22neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -660,8 +660,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o23neW
+CMP modrm, 10000b
+jb o23neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -679,8 +679,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o24neW
+CMP modrm, 10000b
+jb o24neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -698,8 +698,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o25neW
+CMP modrm, 10000b
+jb o25neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -717,8 +717,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o26neW
+CMP modrm, 10000b
+jb o26neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
@@ -736,8 +736,8 @@ Call irasykZodi
 mov tmpW, "+0"
 Call irasykZodi
 CALL skaityk1baita 
-CMP arw, 1000b
-jne o27neW
+CMP modrm, 10000b
+jb o27neW
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL

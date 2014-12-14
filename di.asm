@@ -896,12 +896,14 @@ irasykASCIIisAL proc
     ja raide1                        ;jei al > 9 tai soka i raide
     add al, 30h   
     xor cx, cx
-    mov cl, al
+    ;mov cl, al
+    mov ch, al
     jmp n2
     raide1:     
     add al, 37h
     xor cx, cx  
-    mov cl, al
+    ;mov cl, al
+    mov ch, al
     n2:
     mov al, bl
     shl al, 4
@@ -909,11 +911,13 @@ irasykASCIIisAL proc
     cmp al, 9
     ja raide2 
     add al, 30h
-    mov ch, al
+    ;mov ch, al
+    mov cl, al
     jmp writetmp
     raide2:
     add al, 37h 
-    mov ch, al
+    ;mov ch, al
+    mov cl, al
     writetmp:   
     mov tmpW, cx
     Call irasykZodi    

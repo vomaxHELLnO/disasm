@@ -209,6 +209,7 @@ atpazinkkomanda:
 
 pA1:
     MOV DX, offset cA1
+    MOV arw, 0000b
     CALL irasyk                
     mov reg, al          
     CALL skaityk1baita 
@@ -312,8 +313,9 @@ mul bx
 mov bx, ax
 jmp cs:TblModRM[bx]    
 TblModRM dw o00, o01, o02, o03, o04, o05, o06, o07
-
-
+         dw o10, o11, o12, o13, o14, o15, o16, o17
+         dw o20, o21, o22, o23, o24, o25, o26, o27
+         dw orr, orr, orr, orr, orr, orr, orr, orr
 o00:
 mov tmpW, "[B"
 Call irasykZodi 
@@ -383,9 +385,9 @@ CALL skaityk1baita
 push ax
 CALL skaityk1baita
 Call irasykASCIIisAL
-pop ax
+pop  ax
 Call irasykASCIIisAL
-mov tmpB, "h"
+mov  tmpB, "h"
 Call irasykBaita 
 ret  
 o07:
@@ -393,7 +395,372 @@ mov tmpW, "[B"
 Call irasykZodi
 mov tmpW, "X]"
 Call irasykZodi
-
+o10:
+mov tmpW, "[B"
+Call irasykZodi 
+mov tmpW, "X]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita
+mov tmpW, "[S"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o10neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o10neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret
+o11:
+mov tmpW, "[B"
+Call irasykZodi    
+mov tmpW, "X]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita
+mov tmpW, "[D"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o11neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o11neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret 
+o12:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita
+mov tmpW, "[S"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o12neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o12neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o13:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita
+mov tmpW, "[D"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o13neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o13neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o14:
+mov tmpW, "[S"
+Call irasykZodi
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o14neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o14neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o15:
+mov tmpW, "[D"
+Call irasykZodi
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o15neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o15neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o16:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o16neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o16neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o17:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "X]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o17neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o17neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita    
+ret    
+o20:
+mov tmpW, "[B"
+Call irasykZodi 
+mov tmpW, "X]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita
+mov tmpW, "[S"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi 
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o20neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o20neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret
+o21:
+mov tmpW, "[B"
+Call irasykZodi    
+mov tmpW, "X]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita
+mov tmpW, "[D"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o21neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o21neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o22:         
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita 
+mov tmpW, "[S"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o22neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o22neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o23:         
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi
+mov tmpB, "+"
+CALL irasykBaita 
+mov tmpW, "[D"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o23neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o23neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o24:         
+mov tmpW, "[S"
+Call irasykZodi
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o24neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o24neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita 
+ret  
+o25:         
+mov tmpW, "[D"
+Call irasykZodi
+mov tmpW, "I]"
+Call irasykZodi
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o25neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o25neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret    
+o26:         
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o26neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o26neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita
+ret  
+o27:         
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "X]"
+Call irasykZodi 
+mov tmpW, "+0"
+Call irasykZodi
+CALL skaityk1baita 
+CMP arw, 1000b
+jne o27neW
+push ax
+CALL skaityk1baita
+Call irasykASCIIisAL
+pop ax
+o27neW:
+Call irasykASCIIisAL
+mov tmpB, "h"
+Call irasykBaita   
+ret    
+orr: 
+mov al, modrm
+push ax
+mov al, reg
+push ax
+mov al, modrm
+SHL al, 5h
+SHR al, 5h
+mov reg, al
+Call rasykreg
+pop ax
+mov reg, al  
+pop ax
+mov modrm, al
 ret  
 rasykrm endp  
  

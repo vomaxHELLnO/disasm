@@ -33,6 +33,37 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
              DB  " Pastaba1: duomenu failo ilgis negali buti didesnis uz 255 "  
              DB  " Pastaba2: parametruose turi buti nurodyti 2 failu vardai, "
              DB  " sia seka: duomenu failas1, rezulatato failas $" 
+
+        c88 DB "Mov $"
+        c89 DB "Mov $"
+        c8A DB "Mov $"
+        c8B DB "Mov $"
+        c8C DB "Mov $"
+        c8E DB "Mov $"
+        ;c8F DB "Pop $"
+        ;c9A DB "Call cs:$"
+        cA0 DB "Mov Al, ds:$"
+        cA1 DB "Mov AX, ds:$"
+        cA2 DB "Mov ds:$"
+        cA3 DB "Mov ds:$" 
+        cB0 DB "Mov AL, $"
+        cB1 DB "Mov CL, $"
+        cB2 DB "Mov DL, $"
+        cB3 DB "Mov BL, $"
+        cB4 DB "Mov Ah, $"
+        cB5 DB "Mov Ch, $"
+        cB6 DB "Mov Dh, $"
+        cB7 DB "Mov Bh, $"
+        cB8 DB "Mov AX, $"
+        cB9 DB "Mov CX, $"
+        cBA DB "Mov DX, $"
+        cBB DB "Mov BX, $"
+        cBC DB "Mov SP, $"
+        cBD DB "Mov BP, $"
+        cBE DB "Mov SI, $"
+        cBF DB "Mov DI, $"
+             
+
              
 .code                                  ; kodo segmento pradzia
 
@@ -144,26 +175,9 @@ Ciklas:
 
 pirmas:  
 
-skaito1:    
-            
-    mov al, 0
-	mov bx, d1d
-	mov cx, 0
-	mov dx, fp
-	inc fp
-	mov ah, 42h
-	int 21h ; seek... 
-    
-	mov bx, d1d
-	mov dx, offset skbuf1
-	mov cx, 1
-	mov ah, 3fh
-	int 21h ; read from file... 
-    cmp ax, 0h
-    JE uzdarytiRasymui
-    mov ah, 0h
-    mov al, skbuf1
-    mov di, ax                             
+skaito1:
+     
+    CALL skaityk1baita                     
  
 ;_________________________________________________________________________	   
 ;di - pirmas failas
@@ -185,6 +199,30 @@ MOVa:
     MOV DX, offset MOVas
     CALL irasyk 
     JMP ciklas
+
+;_____________________________________________________________
+;PROCEDUROS
+
+skaityk1baita proc            
+    mov al, 0
+	mov bx, d1d
+	mov cx, 0
+	mov dx, fp
+	inc fp
+	mov ah, 42h
+	int 21h ; seek... 
+	mov bx, d1d
+	mov dx, offset skbuf1
+	mov cx, 1
+	mov ah, 3fh
+	int 21h ; read from file... 
+    cmp ax, 0h
+    JE  uzdarytiRasymui
+    mov ah, 0h
+    mov al, skbuf1
+    mov di, ax
+    ret
+skaityk1baita endp
                               
 irasyk proc    
 ieskokpabaigos:    
@@ -200,7 +238,10 @@ irasyk1simb:
 	JC	klaidaRasant
     INC dx
     JMP ieskokpabaigos    
-irasyk endp                              
+irasyk endp
+
+
+
                                                         
  ;_______________________________________________________________________   
 irasykifaila:

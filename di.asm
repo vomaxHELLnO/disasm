@@ -11,7 +11,7 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
 .data         
       ilgis1 DB  2 dup (0)             ;pirmo  failko duomenu ilgis (simboliu skaicius)
 	 ilgis22 DB  2 dup (0)
-      duom1  DB  "duom.txt", 0;30 dup (0)            ;duomenø failo pavadinimas, pasibaigiantis nuliniu simboliu (C sintakse - '\0')
+      duom1  DB  "TEST.COM", 0;30 dup (0)            ;duomenø failo pavadinimas, pasibaigiantis nuliniu simboliu (C sintakse - '\0')
       rez    DB  "rez.txt", 0;30 dup (0)            ;rezultatø failo pavadinimas, pasibaigiantis nuliniu simboliu
       skbuf1 DB  bufdydis dup (?)      ;skaitymo buferis pirmo failo
       r1buf  DB  bufdydis dup (?)      ;rasymo buferis
@@ -34,12 +34,15 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
              DB  " Pastaba2: parametruose turi buti nurodyti 2 failu vardai, "
              DB  " sia seka: duomenu failas1, rezulatato failas $" 
         
-        tmp DW ? 
+       tmpW DW ?
+       tmpB DB ?
       tmpsk DB 0h
       modrm DB 0h
         reg DB 0h
         arw DB 0h
        kabl DB ","
+       plus DB "+"
+       entr DB 0Dh, 0Ah
         c88 DB "Mov $"
         c89 DB "Mov $"
         c8A DB "Mov $"
@@ -207,10 +210,10 @@ MOVa:
     CALL irasyk 
     CALL skaityk1baita                 
     CALL setmodrmIRreg
-    ;CALL rasykrm
-    CALL rasykkableli
-    
-    CALL rasykreg        
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil      
     JMP ciklas
 
 ;_____________________________________________________________
@@ -258,15 +261,105 @@ modrmas:
     MOV modrm, al
     ret    
 setmodrmIRreg endp
+ 
+rasykrm proc
+xor ax, ax      
+add al, modrm  
+mov bx, 2
+mul bx
+mov bx, ax
+mov dx, offset tmpW
+jmp cs:TblModRM[bx]    
+TblModRM dw o00, o01, o02, o03, o04, o05, o06, o07
 
-    ;CALL rasykrm
-    ;CALL rasykkableli
-    ;CALL rasykreg
-
-
-
-
-
+o00:
+mov tmpW, "[B"
+Call irasykZodi 
+mov tmpW, "X]"
+Call irasykZodi
+push dx
+mov dx, offset plus
+CALL irasykBaita
+pop dx
+mov tmpW, "[S"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi 
+ret
+o01:
+mov tmpW, "[B"
+Call irasykZodi    
+mov tmpW, "X]"
+Call irasykZodi
+push dx
+mov dx, offset plus
+CALL irasykBaita
+pop dx 
+mov tmpW, "[D"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+ret 
+o02:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi
+push dx
+mov dx, offset plus
+CALL irasykBaita
+pop dx 
+mov tmpW, "[S"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+ret  
+o03:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "P]"
+Call irasykZodi
+push dx
+mov dx, offset plus
+CALL irasykBaita
+pop dx 
+mov tmpW, "[D"
+Call irasykZodi 
+mov tmpW, "I]"
+Call irasykZodi
+ret  
+o04:
+mov tmpW, "[S"
+Call irasykZodi
+mov tmpW, "I]"
+Call irasykZodi
+ret  
+o05:
+mov tmpW, "[D"
+Call irasykZodi
+mov tmpW, "I]"
+Call irasykZodi
+ret  
+o06:
+mov tmpW, "ds" 
+Call irasykZodi
+mov tmpW, ":0"
+Call irasykZodi
+mov al, 00h
+;Call Writeal
+mov al, 00h
+;Call Writeal
+;mov tmpB, "h"
+;Call Writebbb 
+ret  
+o07:
+mov tmpW, "[B"
+Call irasykZodi
+mov tmpW, "X]"
+Call irasykZodi
+ret  
+rasykrm endp  
+ 
 rasykreg proc
 xor ax, ax      
 mov al, reg
@@ -274,56 +367,56 @@ add al, arw
 mov bx, 2
 mul bx
 mov bx, ax
-mov dx, offset tmp
+mov dx, offset tmpW
 jmp cs:TblReg[bx]    
 TblReg dw r00, r01, r02, r03, r04, r05, r06, r07
        dw r10, r11, r12, r13, r14, r15, r16, r17 
-r00:mov tmp, "AL"
+r00:mov tmpW, "AL"
     Call irasykZodi 
     ret
-r01:mov tmp, "CL"
+r01:mov tmpW, "CL"
     Call irasykZodi
     ret 
-r02:mov tmp, "DL"
+r02:mov tmpW, "DL"
     Call irasykZodi
     ret  
-r03:mov tmp, "BL"
+r03:mov tmpW, "BL"
     Call irasykZodi
     ret  
-r04:mov tmp, "AH"
+r04:mov tmpW, "AH"
     Call irasykZodi
     ret  
-r05:mov tmp, "CH"
+r05:mov tmpW, "CH"
     Call irasykZodi
     ret  
-r06:mov tmp, "DH"
+r06:mov tmpW, "DH"
     Call irasykZodi
     ret  
-r07:mov tmp, "BH"
+r07:mov tmpW, "BH"
     Call irasykZodi
     ret  
-r10:mov tmp, "AX"
+r10:mov tmpW, "AX"
     Call irasykZodi
     ret  
-r11:mov tmp, "CX"
+r11:mov tmpW, "CX"
     Call irasykZodi
     ret  
-r12:mov tmp, "DX"
+r12:mov tmpW, "DX"
     Call irasykZodi
     ret  
-r13:mov tmp, "BX"
+r13:mov tmpW, "BX"
     Call irasykZodi
     ret  
-r14:mov tmp, "SP"
+r14:mov tmpW, "SP"
     Call irasykZodi
     ret  
-r15:mov tmp, "BP"
+r15:mov tmpW, "BP"
     Call irasykZodi
     ret  
-r16:mov tmp, "SI"
+r16:mov tmpW, "SI"
     Call irasykZodi
     ret  
-r17:mov tmp, "DI"
+r17:mov tmpW, "DI"
     Call irasykZodi      
     ret
 rasykreg endp       
@@ -362,6 +455,25 @@ irasykZodi proc
 	RET    
 irasykZodi endp
 
+irasykBaita proc
+    MOV cx, 1h
+	MOV ah, 40h
+	MOV bx, rd
+    INT	21h
+	JC	klaidaRasant
+	ret     
+irasykBaita endp
+
+rasykIsNaujEil proc    
+    mov dx, offset entr
+    MOV cx, 2h
+	MOV ah, 40h
+	MOV bx, rd
+    INT	21h
+	JC	klaidaRasant
+	RET
+rasykIsNaujEil endp
+    
 rasykkableli proc
     mov dx, offset kabl
     MOV cx, 1h

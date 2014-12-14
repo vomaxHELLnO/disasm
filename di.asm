@@ -188,13 +188,15 @@ skaito1:
     CALL skaityk1baita                     
  
 ;_________________________________________________________________________	   
-;di - pirmas failas
+;KOMANDU ATPAZINIMAS:
 
 
 
 atpazinkkomanda:
 
-
+    cmp al, 0A1h
+    JE  pA1
+    
 	cmp al, 8Bh
 	JE MOVa    
 	
@@ -204,6 +206,25 @@ atpazinkkomanda:
     MOV DX, offset neatpazinta   
 	CALL irasyk
     JMP ciklas
+
+pA1:
+    MOV DX, offset cA1
+    CALL irasyk                
+    mov reg, al          
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas
+
+
+
+
     
 pB8:
     MOV DX, offset cB8
@@ -276,7 +297,7 @@ modrmas:
     SHL al, 03h
     mov tmpsk, al
     pop ax
-    SHL al, 02h
+    SHL al, 05h
     SHR al, 05h
     ADD al, tmpsk
     MOV modrm, al

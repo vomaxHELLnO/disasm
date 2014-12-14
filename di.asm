@@ -33,7 +33,13 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
              DB  " Pastaba1: duomenu failo ilgis negali buti didesnis uz 255 "  
              DB  " Pastaba2: parametruose turi buti nurodyti 2 failu vardai, "
              DB  " sia seka: duomenu failas1, rezulatato failas $" 
-
+        
+        tmp DW ? 
+      tmpsk DB 0h
+      modrm DB 0h
+        reg DB 0h
+        arw DB 0h
+       kabl DB ","
         c88 DB "Mov $"
         c89 DB "Mov $"
         c8A DB "Mov $"
@@ -196,8 +202,15 @@ atpazinkkomanda:
     
     
 MOVa:
-    MOV DX, offset MOVas
+    MOV DX, offset c8B
+    MOV arw, 1000b
     CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    ;CALL rasykrm
+    CALL rasykkableli
+    
+    CALL rasykreg        
     JMP ciklas
 
 ;_____________________________________________________________
@@ -223,6 +236,97 @@ skaityk1baita proc
     mov di, ax
     ret
 skaityk1baita endp
+        
+setmodrmIRreg proc
+    push ax
+    push ax
+    push ax    
+regas:
+    pop ax
+    SHL al, 02h
+    SHR al, 05h
+    mov reg, al    
+modrmas:    
+    pop ax
+    SHR al, 06h
+    SHL al, 03h
+    mov tmpsk, al
+    pop ax
+    SHL al, 02h
+    SHR al, 05h
+    ADD al, tmpsk
+    MOV modrm, al
+    ret    
+setmodrmIRreg endp
+
+    ;CALL rasykrm
+    ;CALL rasykkableli
+    ;CALL rasykreg
+
+
+
+
+
+rasykreg proc
+xor ax, ax      
+mov al, reg
+add al, arw
+mov bx, 2
+mul bx
+mov bx, ax
+mov dx, offset tmp
+jmp cs:TblReg[bx]    
+TblReg dw r00, r01, r02, r03, r04, r05, r06, r07
+       dw r10, r11, r12, r13, r14, r15, r16, r17 
+r00:mov tmp, "AL"
+    Call irasykZodi 
+    ret
+r01:mov tmp, "CL"
+    Call irasykZodi
+    ret 
+r02:mov tmp, "DL"
+    Call irasykZodi
+    ret  
+r03:mov tmp, "BL"
+    Call irasykZodi
+    ret  
+r04:mov tmp, "AH"
+    Call irasykZodi
+    ret  
+r05:mov tmp, "CH"
+    Call irasykZodi
+    ret  
+r06:mov tmp, "DH"
+    Call irasykZodi
+    ret  
+r07:mov tmp, "BH"
+    Call irasykZodi
+    ret  
+r10:mov tmp, "AX"
+    Call irasykZodi
+    ret  
+r11:mov tmp, "CX"
+    Call irasykZodi
+    ret  
+r12:mov tmp, "DX"
+    Call irasykZodi
+    ret  
+r13:mov tmp, "BX"
+    Call irasykZodi
+    ret  
+r14:mov tmp, "SP"
+    Call irasykZodi
+    ret  
+r15:mov tmp, "BP"
+    Call irasykZodi
+    ret  
+r16:mov tmp, "SI"
+    Call irasykZodi
+    ret  
+r17:mov tmp, "DI"
+    Call irasykZodi      
+    ret
+rasykreg endp       
                               
 irasyk proc    
 ieskokpabaigos:    
@@ -237,12 +341,36 @@ irasyk1simb:
     INT	21h
 	JC	klaidaRasant
     INC dx
-    JMP ieskokpabaigos    
+    JMP ieskokpabaigos
+    RET  
 irasyk endp
 
+irasykZodi proc
+    MOV cx, 1h
+	MOV ah, 40h
+	MOV bx, rd
+	inc dx
+    INT	21h
+	JC	klaidaRasant    
+        
+    MOV cx, 1h
+	MOV ah, 40h
+	MOV bx, rd
+	dec dx
+    INT	21h
+	JC	klaidaRasant
+	RET    
+irasykZodi endp
 
-
-                                                        
+rasykkableli proc
+    mov dx, offset kabl
+    MOV cx, 1h
+	MOV ah, 40h
+	MOV bx, rd
+    INT	21h
+	JC	klaidaRasant
+	ret     
+rasykkableli endp                                                        
  ;_______________________________________________________________________   
 irasykifaila:
 

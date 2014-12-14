@@ -174,41 +174,34 @@ atpazinkkomanda:
 
 
 	cmp al, 8Bh
-	JE irasykMOV
-
-	JMP irasykneatpazinta
-	
-	mov ax, di
-	mov r1buf, al    
-    JMP rasyk1
-	
-rasyk1:
-   
-    MOV  ah, 0h
-    MOV  al, r1buf
-    PUSH ax
-    INC  cikl
-  
-lyginti1:
-
-	CMP word ptr ilgis1, 0
-	JE  irasykifaila
-    JMP ciklas 
-
-irasykMOV:
-    MOV cx, 5h
+	JE MOVa
+    
+    MOV DX, offset neatpazinta   
+	CALL irasyk
+    JMP ciklas
+    
+    
+MOVa:
+    MOV DX, offset MOVas
+    CALL irasyk 
+    JMP ciklas
+                              
+irasyk proc    
+ieskokpabaigos:    
+    MOV di, dx      
+    CMP DS:[di], "$"
+    JNE irasyk1simb 
+    RET 
+irasyk1simb:
+    MOV cx, 1h
 	MOV ah, 40h
 	MOV bx, rd
-	MOV DX, offset MOVas
-	JMP irasykifaila
-	
-irasykneatpazinta:
-    MOV cx, 3h
-	MOV ah, 40h
-	MOV bx, rd
-	MOV DX, offset neatpazinta
-	JMP irasykifaila
-
+    INT	21h
+	JC	klaidaRasant
+    INC dx
+    JMP ieskokpabaigos    
+irasyk endp                              
+                                                        
  ;_______________________________________________________________________   
 irasykifaila:
 

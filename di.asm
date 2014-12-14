@@ -17,8 +17,7 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
       r1buf  DB  bufdydis dup (?)      ;rasymo buferis
       r2buf  DB  bufdydis dup (?)      ;laikinas atminties buferis                                
       d1d    DW  ?                     ;vieta, skirta saugoti duomenø failo deskriptoriaus numerá ("handle")
-      rd     DW  ?                     ;vieta, skirta saugoti rezultato failo deskriptoriaus numerá     
-      fp     DW  00h                   ;file pointer, poslinkis nuo filepointerio pradzios
+      rd     DW  ?                     ;vieta, skirta saugoti rezultato failo deskriptoriaus numerá
       cikl   DB  2     
       nusk   DB  100 dup ('$')   
       count  DB  1        
@@ -223,8 +222,7 @@ skaityk1baita proc
     mov al, 0
 	mov bx, d1d
 	mov cx, 0
-	mov dx, fp
-	inc fp
+	mov dx, 0
 	mov ah, 42h
 	int 21h ; seek... 
 	mov bx, d1d

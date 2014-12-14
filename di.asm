@@ -47,7 +47,25 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
         c02 DB "ADD $"
         c03 DB "ADD $"
         c04 DB "ADD AL, $"
-        c05 DB "ADD AX, $"       
+        c05 DB "ADD AX, $"  
+        
+        c70 DB "JO $"
+        c71 DB "JNO $"
+        c72 DB "JB $"
+        c73 DB "JAE $"
+        c74 DB "JE $"
+        c75 DB "JNE $"
+        c76 DB "JBE $"
+        c77 DB "JA $"
+        c78 DB "JS $"
+        c79 DB "JNS $"
+        c7A DB "JP $"
+        c7B DB "JNP $"
+        c7C DB "JL $"
+        c7D DB "JGE $"
+        c7E DB "JLE $"
+        c7F DB "JG $"         
+             
         c88 DB "Mov $"
         c89 DB "Mov $"
         c8A DB "Mov $"
@@ -210,8 +228,41 @@ atpazinkkomanda:
     cmp al, 04h 
     JE  p04   
     cmp al, 05h 
-    JE  p05 
-     
+    JE  p05     
+                       
+    cmp al, 70h    ; Compare
+    JE p70   
+    cmp al, 71h
+    JE p71   
+    cmp al, 72h
+    JE p72   
+    cmp al, 73h
+    JE p73   
+    cmp al, 74h
+    JE p74   
+    cmp al, 75h
+    JE p75    
+    cmp al, 76h
+    JE p76   
+    cmp al, 77h
+    JE p77   
+    cmp al, 78h
+    JE p78    
+    cmp al, 79h
+    JE p79   
+    cmp al, 7Ah
+    JE p7A    
+    cmp al, 7Bh
+    JE p7B   
+    cmp al, 7Ch
+    JE p7C   
+    cmp al, 7Dh
+    JE p7D   
+    cmp al, 7Eh
+    JE p7E   
+    cmp al, 7Fh
+    JE p7F
+              
     cmp al, 0A1h    ; MOV
     JE  pA1
     
@@ -302,6 +353,69 @@ p05:
     CALL rasykIsNaujEil
     JMP ciklas               
    
+p70:
+    MOV DX, offset c70 
+    jmp p7x
+p71:      
+    MOV DX, offset c71  
+    jmp p7x
+p72:
+    MOV DX, offset c72  
+    jmp p7x    
+p73:
+    MOV DX, offset c73  
+    jmp p7x     
+p74:
+    MOV DX, offset c74  
+    jmp p7x     
+p75: 
+    MOV DX, offset c75  
+    jmp p7x    
+p76:
+    MOV DX, offset c76  
+    jmp p7x     
+p77:
+    MOV DX, offset c77  
+    jmp p7x     
+p78: 
+    MOV DX, offset c78  
+    jmp p7x    
+p79: 
+    MOV DX, offset c79  
+    jmp p7x    
+p7A: 
+    MOV DX, offset c7A  
+    jmp p7x    
+p7B:  
+    MOV DX, offset c7B  
+    jmp p7x   
+p7C: 
+    MOV DX, offset c7C  
+    jmp p7x    
+p7D: 
+    MOV DX, offset c7D  
+    jmp p7x    
+p7E:
+    MOV DX, offset c7E  
+    jmp p7x          
+p7F:
+    MOV DX, offset c7F  
+    jmp p7x 
+p7x: 
+    CALL irasyk                
+    mov reg, al          
+    ;CALL skaityk1baita 
+    ;push ax
+    ;CALL skaityk1baita
+    ;Call irasykASCIIisAL
+    ;pop ax
+    ;Call irasykASCIIisAL
+    ;mov tmpB, "h"
+    ;Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas
+     
+     
 pA1:
     MOV DX, offset cA1
     MOV arw, 0000b

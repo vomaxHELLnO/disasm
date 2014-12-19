@@ -51,24 +51,74 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
         c05 DB "ADD AX, $"          
         c06 DB "Push ES $"
         c07 DB "Pop ES $"
+        c08 DB "OR $"        
+        c09 DB "OR $"        
+        c0A DB "OR $"        
+        c0B DB "OR $"        
+        c0C DB "OR AL, $"        
+        c0D DB "OR AX, $"        
         c0E DB "Push CS $"
         c0F DB "Pop CS $"
+        c10 DB "ADC $"        
+        c11 DB "ADC $"         
+        c12 DB "ADC $"        
+        c13 DB "ADC $" 
+        c14 DB "ADC AL, $"        
+        c15 DB "ADC AX, $"        
         c16 DB "Push SS $"
         c17 DB "Pop SS $"
+        c18 DB "SBB $"        
+        c19 DB "SBB $"        
+        c1A DB "SBB $"        
+        c1B DB "SBB $"
+        c1C DB "SBB AL, $"
+        c1D DB "SBB AX, $"       
         c1E DB "Push DS $"
-        c1F DB "Pop DS $"  
+        c1F DB "Pop DS $"
+        c20 DB "AND $"        
+        c21 DB "AND $"        
+        c22 DB "AND $"        
+        c23 DB "AND $"
+        c24 DB "AND AL, $"
+        c25 DB "AND AX, $"        
+        c27 DB "DAA $"  
         c28 DB "Sub $"
         c29 DB "Sub $"
         c2A DB "Sub $"
         c2B DB "Sub $"    
         c2C DB "Sub AL, $"
-        c2D DB "Sub AX, $"    
+        c2D DB "Sub AX, $"
+        c2F DB "DAS $"
+        c30 DB "XOR $"        
+        c31 DB "XOR $"        
+        c32 DB "XOR $"        
+        c33 DB "XOR $"        
+        c34 DB "XOR AL, $"        
+        c35 DB "XOR AX, $"              
+        c37 DB "AAA $"                    
         c38 DB "Cmp $"
         c39 DB "Cmp $"
         c3A DB "Cmp $"
         c3B DB "Cmp $"         
-        c3C db "Cmp AL, $"
-        c3D db "Cmp AX, $"
+        c3C DB "Cmp AL, $"
+        c3D DB "Cmp AX, $"
+        c3F DB "AAS $"
+        c40 DB "INC AX$"        
+        c41 DB "INC CX$"        
+        c42 DB "INC DX$"        
+        c43 DB "INC BX$"
+        c44 DB "INC SP$"        
+        c45 DB "INC BP$"        
+        c46 DB "INC SI$"        
+        c47 DB "INC DI$"
+        c48 DB "DEC AX$"
+        c49 DB "DEC CX$"
+        c4A DB "DEC DX$"
+        c4B DB "DEC BX$"
+        c4C DB "DEC SP$"
+        c4D DB "DEC BP$"
+        c4E DB "DEC SI$"
+        c4F DB "DEC DI$"        
         c50 DB "Push AX $" 
         c51 DB "Push CX $"
         c52 DB "Push DX $"
@@ -104,20 +154,49 @@ bufdydis EQU 1            ;konstanta bufDydis (lygi 1) - skaitymo ir raðymo bufe
 m80 db ? ;Add/Sub/Cmp
 m81 db ? ;Add/Sub/Cmp
 m82 db ? ;Add/Sub/Cmp
-m83 db ? ;Add/Sub/Cmp
+m83 db ? ;Add/Sub/Cmp    
+        c84 DB "TEST $"
+        c85 DB "TEST $"
         c88 DB "Mov $"
         c89 DB "Mov $"
         c8A DB "Mov $"
         c8B DB "Mov $"
         c8C DB "Mov $"
+        c8D DB "LEA $"
         c8E DB "Mov $"
         c8F DB "Pop  $"
-        c9A DB "Call cs: $"
-        c9B DB "WAIT$"
+c90 DB "XCHG $"            
+c91 DB "XCHG $"            
+c92 DB "XCHG $"        
+c93 DB "XCHG $"            
+c94 DB "XCHG $"          
+c95 DB "XCHG $"           
+c96 DB "XCHG $"                   
+c97 DB "XCHG $"
+        c98 DB "CBW $"
+        c99 DB "CWD $"    
+        c9A DB "Call cs:$"
+        c9B DB "WAIT$"     
+        c9C DB "PUSHF $"
+        c9D DB "POPF $" 
+        c9E DB "SAHF $"       
+        c9F DB "LAHF $"                
         cA0 DB "Mov Al, ds:$"
         cA1 DB "Mov AX, ds:$"
         cA2 DB "Mov ds:$"
-        cA3 DB "Mov ds:$" 
+        cA3 DB "Mov ds:$"
+        cA4 DB "MOVS $"
+        cA5 DB "MOVS $" 
+        cA6 DB "CMPS $"
+        cA7 DB "CMPS $"
+        cA8 DB "TEST AL, $"        
+        cA9 DB "TEST AX, $"
+        cAA DB "STOS $"
+        cAB DB "STOS $"
+        cAC DB "LODS $"
+        cAD DB "LODS $"
+        cAE DB "SCAS $"
+        cAF DB "SCAS $"         
         cB0 DB "Mov AL, $"
         cB1 DB "Mov CL, $"
         cB2 DB "Mov DL, $"
@@ -134,20 +213,41 @@ m83 db ? ;Add/Sub/Cmp
         cBD DB "Mov BP, $"
         cBE DB "Mov SI, $"
         cBF DB "Mov DI, $"  
-mC2 db "Ret $"
-mC3 db "Ret $"
+        cC2 DB "RET $"
+        cC3 DB "RET $"
+        cC4 DB "LES $"
+        cC5 DB "LDS $"
 mC6 db "Mov $"
 mC7 db "Mov $"
-mCB db "Ret $"
-mCD db "Int $"
+        cCA DB "RET $"
+        cCB DB "RET $"
+        cCD DB "INT $"
+        cCF DB "IRET $"
+        cD40A DB "AAM $" 
+        cD50A DB "AAD $"
+        cD7 DB "XLAT $"      
 mE3 db "jcxz $"
-mE8 db "Call ds: $"
+mE8 db "Call ds: $"        
+        cE0 DB "LOOPNE $"
+        cE1 DB "LOOPE $"
+        cE2 DB "LOOP $"
+        cE4 DB "IN $"
+        cE5 DB "IN $" 
+        cE6 DB "OUT $"
+        cE7 DB "OUT $"
+        cE8 DB "CALL $"                          
         cE9 DB "jmp $"
         cEA DB "jmp cs:$"
         cEB DB "jmp $"
-       
-        cF0 DB "LOCK$"                 
-        cF1 DB "STC$"        
+        cEC DB "IN $"        
+        cED DB "IN $"         
+        cEE DB "OUT $"        
+        cEF DB "OUT $"         
+        cF0 DB "LOCK$"
+        cF1 DB "STC$"         
+        cF2 DB "REP$"
+       ; cF32 DB "REPNE$"                                  
+        cF3 DB "REPNZ$"        
         cF4 DB "HLT$"
         cF5 DB "CMC$"       
         cF8 DB "CLC$"
@@ -157,8 +257,13 @@ mE8 db "Call ds: $"
         cFD DB "STD$"
 mF6 db ? ;Mul/Div
 mF7 db ? ;Mul/Div
-mFF db ? ;Call/jmp/push
-
+        cFE000 DB "INC $"
+        cFF000 DB "INC $"
+        cFE001 DB "DEC $"
+        cFF001 DB "DEC $"
+        cFF110 DB "PUSH $" ;TODO papildyti Call/jmp/push
+        cFF010 DB "CALL $"
+        cFF011 DB "CALL $"
              
 .code                                  ; kodo segmento pradzia
 
@@ -280,7 +385,7 @@ skaito1:
 
 
 atpazinkkomanda:
-    cmp al, 00h   ; ADD
+    cmp al, 00h   ;ADD
     JE  p00
     cmp al, 01h 
     JE  p01  
@@ -293,139 +398,321 @@ atpazinkkomanda:
     cmp al, 05h 
     JE  p05          
     cmp al, 06h   ;push/pop
-    JE p06
+    JE  p06
     cmp al, 07h 
-    JE p07
+    JE  p07
+    cmp al, 08h 
+    JE  p08    
+    cmp al, 09h 
+    JE  p09    
+    cmp al, 0Ah 
+    JE  p0A    
+    cmp al, 0Bh 
+    JE  p0B    
+    cmp al, 0Ch 
+    JE  p0C    
+    cmp al, 0Dh 
+    JE  p0D    
     cmp al, 0Eh 
-    JE p0E
+    JE  p0E
     cmp al, 0Fh 
-    JE p0F
+    JE  p0F
+    cmp al, 10h 
+    JE  p10
+    cmp al, 11h 
+    JE  p11
+    cmp al, 12h 
+    JE  p12
+    cmp al, 13h 
+    JE  p13
+    cmp al, 14h 
+    JE  p14
+    cmp al, 15h 
+    JE  p15
     cmp al, 16h 
-    JE p16
+    JE  p16
     cmp al, 17h 
-    JE p17
+    JE  p17
+    cmp al, 18h 
+    JE  p18 
+    cmp al, 19h 
+    JE  p19 
+    cmp al, 1Ah 
+    JE  p1A 
+    cmp al, 1Bh 
+    JE  p1B 
+    cmp al, 1Ch 
+    JE  p1C 
+    cmp al, 1Dh 
+    JE  p1D 
     cmp al, 1Eh 
-    JE p1E
+    JE  p1E
     cmp al, 1Fh 
-    JE p1F                 
-
+    JE  p1F                 
+    cmp al, 20h
+    JE  p20    
+    cmp al, 21h
+    JE  p21    
+    cmp al, 22h
+    JE  p22    
+    cmp al, 23h
+    JE  p23    
+    cmp al, 24h
+    JE  p24    
+    cmp al, 25h
+    JE  p25            
+    cmp al, 27h
+    JE  p27
     cmp al, 28h         ;sub
-    JE p28    
+    JE  p28    
     cmp al, 29h 
-    JE p29    
+    JE  p29    
     cmp al, 2Ah 
-    JE p2A    
+    JE  p2A    
     cmp al, 2Bh 
-    JE p2B    
+    JE  p2B    
     cmp al, 2Ch 
-    JE p2C    
+    JE  p2C    
     cmp al, 2Dh 
-    JE p2D    
-    
+    JE  p2D
+    cmp al, 2Fh 
+    JE  p2F        
+    cmp al, 30h
+    JE  p30    
+    cmp al, 31h
+    JE  p31    
+    cmp al, 32h
+    JE  p32    
+    cmp al, 33h
+    JE  p33    
+    cmp al, 34h
+    JE  p34    
+    cmp al, 35h
+    JE  p35              
+    cmp al, 37h         ;cmp    
+    JE  p37     
     cmp al, 38h         ;cmp    
-    JE p38    
+    JE  p38    
     cmp al, 39h 
-    JE p39    
+    JE  p39    
     cmp al, 3Ah 
-    JE p3A    
+    JE  p3A    
     cmp al, 3Bh 
-    JE p3B        
-                 
+    JE  p3B                         
     cmp al, 3Ch  ;cmp ax/al
-    JE p3C           
+    JE  p3C           
     cmp al, 3Dh 
-    JE p3D       
-    
+    JE  p3D       
+    cmp al, 3Fh         ;cmp    
+    JE  p3F              
+    cmp al, 40h 
+    JE  p40    
+    cmp al, 41h 
+    JE  p41    
+    cmp al, 42h 
+    JE  p42    
+    cmp al, 43h 
+    JE  p43    
+    cmp al, 44h 
+    JE  p44    
+    cmp al, 45h 
+    JE  p45    
+    cmp al, 46h 
+    JE  p46    
+    cmp al, 47h 
+    JE  p47
+    cmp al, 48h 
+    JE  p48    
+    cmp al, 49h 
+    JE  p49    
+    cmp al, 4Ah 
+    JE  p4A    
+    cmp al, 4Bh 
+    JE  p4B    
+    cmp al, 4Ch 
+    JE  p4C    
+    cmp al, 4Dh 
+    JE  p4D    
+    cmp al, 4Eh 
+    JE  p4E    
+    cmp al, 4Fh 
+    JE  p4F           
     cmp al, 50h  ;push/pop
-    JE p50
+    JE  p50
     cmp al, 51h 
-    JE p51
+    JE  p51
     cmp al, 52h 
-    JE p52
+    JE  p52
     cmp al, 53h 
-    JE p53
+    JE  p53
     cmp al, 54h 
-    JE p54
+    JE  p54
     cmp al, 55h 
-    JE p55
+    JE  p55
     cmp al, 56h 
-    JE p56
+    JE  p56
     cmp al, 57h 
-    JE p57
+    JE  p57
     cmp al, 58h 
-    JE p58
+    JE  p58
     cmp al, 59h 
-    JE p59
+    JE  p59
     cmp al, 5Ah 
-    JE p5A
+    JE  p5A
     cmp al, 5Bh 
-    JE p5B
+    JE  p5B
     cmp al, 5Ch 
-    JE p5C
+    JE  p5C
     cmp al, 5Dh 
-    JE p5D
+    JE  p5D
     cmp al, 5Eh 
-    JE p5E
+    JE  p5E
     cmp al, 5Fh 
-    JE p5F
-    
+    JE  p5F    
     cmp al, 70h   ;Jump
-    JE p70   
+    JE  p70   
     cmp al, 71h
-    JE p71   
+    JE  p71   
     cmp al, 72h
-    JE p72   
+    JE  p72   
     cmp al, 73h
-    JE p73   
+    JE  p73   
     cmp al, 74h
-    JE p74   
+    JE  p74   
     cmp al, 75h
-    JE p75    
+    JE  p75    
     cmp al, 76h
-    JE p76   
+    JE  p76   
     cmp al, 77h
-    JE p77   
+    JE  p77   
     cmp al, 78h
-    JE p78    
+    JE  p78    
     cmp al, 79h
-    JE p79   
+    JE  p79   
     cmp al, 7Ah
-    JE p7A    
+    JE  p7A    
     cmp al, 7Bh
-    JE p7B   
+    JE  p7B   
     cmp al, 7Ch
-    JE p7C   
+    JE  p7C   
     cmp al, 7Dh
-    JE p7D   
+    JE  p7D   
     cmp al, 7Eh
-    JE p7E   
+    JE  p7E   
     cmp al, 7Fh
-    JE p7F
+    JE  p7F 
+    cmp al, 84h
+    JE  p84   
+    cmp al, 85h
+    JE  p85    
+    cmp al, 8Dh
+    JE  p8D    
     cmp al, 8Fh      ;pop
-    JE p8F    
+    JE  p8F    
+    cmp al, 98h
+    JE  p98      
+    cmp al, 99h
+    JE  p99      
     cmp al, 9Ah     ;call cs:
-    JE p9A                
-              
+    JE  p9A                      
+    cmp al, 9Ch
+    JE  p9C      
+    cmp al, 9Dh
+    JE  p9D      
+    cmp al, 9Eh
+    JE  p9E      
+    cmp al, 9Fh
+    JE  p9F                         
     cmp al, 0A1h    ; MOV
-    JE  pA1    
+    JE  pA1    	
+    cmp al, 0A4h 
+    JE  pA4	
+    cmp al, 0A5h 
+    JE  pA5	
+    cmp al, 0A6h 
+    JE  pA6	
+    cmp al, 0A7h 
+    JE  pA7	
+	cmp al, 0A8h
+    JE  pA8 
+    cmp al, 0A9h 
+    JE  pA9 		  
+    cmp al, 0AAh 
+    JE  pAA
+    cmp al, 0ABh 
+    JE  pAB
+    cmp al, 0ACh 
+    JE  pAC
+    cmp al, 0ADh 
+    JE  pAD
+    cmp al, 0AEh 
+    JE  pAE
+    cmp al, 0AFh 
+    JE  pAF
 	cmp al, 8Bh
-	JE MOVa    	
+	JE  MOVa    	
     cmp al, 0B8h
-	JE pB8      
-	
-	
-    cmp al, 0E9h    ; Jump
-    JE  pE9    
+	JE  pB8
+	cmp al, 0C2h
+	JE  pC2
+	cmp al, 0C3h
+	JE  pC3
+	cmp al, 0C4h
+	JE  pC4 	
+	cmp al, 0C5h
+	JE  pC5
+    cmp al, 0CAh
+	JE  pCA 	
+	cmp al, 0CBh
+	JE  pCB
+    cmp al, 0CDh
+	JE  pCD 		
+	cmp al, 0CFh
+	JE  pCF 
+    cmp al, 0D4h 
+    JE  parAcD4   
+    cmp al, 0D5h 
+    JE  parAcD5    	    	
+	cmp al, 0D7h
+	JE  pD7
+	cmp al, 0E0h    ; Jump
+    JE  pE0 
+    cmp al, 0E1h    ; Jump
+    JE  pE1
+    cmp al, 0E2h    ; Jump
+    JE  pE2  
+    cmp al, 0E4h
+    JE  pE4
+    cmp al, 0E5h
+    JE  pE5
+    cmp al, 0E6h
+    JE  pE6
+    cmp al, 0E7h
+    JE  pE7
+    cmp al, 0E8h
+    JE  pE8    
+    cmp al, 0E9h    ;jump
+    JE  pE9
     cmp al, 0EAh
     JE  pEA       
     cmp al, 0EBh
-    JE  pEB          ; TODO jei reikia jmp
-                     ; TODO jmp   
-        
+    JE  pEB        
+    cmp al, 0ECh
+    JE  pEC
+    cmp al, 0EDh
+    JE  pED
+    cmp al, 0EEh
+    JE  pEE
+    cmp al, 0EFh
+    JE  pEF
     cmp al, 0F0h
     JE  pF0    
     cmp al, 0F1h
     JE  pF1                        
+    cmp al, 0F2h
+    JE  pF2                        
+    cmp al, 0F3h
+    JE  pF3                        
     cmp al, 0F4h
     JE  pF4    
     cmp al, 0F5h
@@ -439,7 +726,13 @@ atpazinkkomanda:
     cmp al, 0FCh
     JE  pFC    
     cmp al, 0FDh
-    JE  pFD    
+    JE  pFD 
+    cmp al, 0FEh
+    JE  pFE  
+    cmp al, 0FFh
+    JE  pFF    
+
+neatpazintac:  
     
     MOV DX, offset neatpazinta   
 	CALL irasyk
@@ -524,26 +817,303 @@ p06:
     JMP pSpauzdinimas    
 p07:
     MOV DX, offset c07
-    JMP pSpauzdinimas 
+    JMP pSpauzdinimas
+p08:
+    MOV DX, offset c08
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p09:
+    MOV DX, offset c09
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p0A:
+    MOV DX, offset c0A
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm 
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p0B:
+    MOV DX, offset c0B
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm 
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p0C:
+    MOV DX, offset c0C
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil              
+    JMP ciklas
+p0D:
+    MOV DX, offset c0D
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil              
+    JMP ciklas            
 p0E:  
     MOV DX, offset c0E
     JMP pSpauzdinimas
 p0F:  
     MOV DX, offset c0F
     JMP pSpauzdinimas
-p16:    
+p10:                       
+    MOV DX, offset c00  
+    MOV arw, 0000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykreg       
+    CALL rasykkableli   
+    CALL rasykrm        
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+p11:                                                  
+    MOV DX, offset c01  
+    MOV arw, 1000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykreg       
+    CALL rasykkableli   
+    CALL rasykrm        
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+                           
+p12:                           
+    MOV DX, offset c02  
+    MOV arw, 0000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykrm        
+    CALL rasykkableli   
+    CALL rasykreg       
+    CALL rasykIsNaujEil 
+    JMP ciklas                                     
+p13:                           
+    MOV DX, offset c03  
+    MOV arw, 1000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykrm        
+    CALL rasykkableli   
+    CALL rasykreg       
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+p14:                           
+    MOV DX, offset c04  
+    MOV arw, 0000b      
+    CALL irasyk         
+    mov reg, al         
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    mov tmpB, "h"       
+    Call irasykBaita    
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+p15:                           
+    MOV DX, offset c05  
+    MOV arw, 1000b      
+    CALL irasyk         
+    mov reg, al         
+    CALL skaityk1baita  
+    push ax             
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    pop ax              
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita     
+    CALL rasykIsNaujEil  
+    JMP ciklas 
+p16:          
     MOV DX, offset c16
     JMP pSpauzdinimas
-p17:    
+p17:           
     MOV DX, offset c17
     JMP pSpauzdinimas
+p18:                       
+    MOV DX, offset c00  
+    MOV arw, 0000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykreg       
+    CALL rasykkableli   
+    CALL rasykrm        
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+p19:                                                  
+    MOV DX, offset c01  
+    MOV arw, 1000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykreg       
+    CALL rasykkableli   
+    CALL rasykrm        
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+                           
+p1A:                           
+    MOV DX, offset c02  
+    MOV arw, 0000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykrm        
+    CALL rasykkableli   
+    CALL rasykreg       
+    CALL rasykIsNaujEil 
+    JMP ciklas                                     
+p1B:                           
+    MOV DX, offset c03  
+    MOV arw, 1000b      
+    CALL irasyk         
+    CALL skaityk1baita  
+    CALL setmodrmIRreg  
+    CALL rasykrm        
+    CALL rasykkableli   
+    CALL rasykreg       
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+p1C:                           
+    MOV DX, offset c04  
+    MOV arw, 0000b      
+    CALL irasyk         
+    mov reg, al         
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    mov tmpB, "h"       
+    Call irasykBaita    
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+p1D:                           
+    MOV DX, offset c05  
+    MOV arw, 1000b      
+    CALL irasyk         
+    mov reg, al         
+    CALL skaityk1baita  
+    push ax             
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    pop ax              
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita     
+    CALL rasykIsNaujEil  
+    JMP ciklas
 p1E:    
     MOV DX, offset c1E
     JMP pSpauzdinimas
 p1F:                       
     MOV DX, offset c1F
     JMP pSpauzdinimas
+p20:
+    MOV DX, offset c20
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p21:
+    MOV DX, offset c21
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p22:
+    MOV DX, offset c22
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm 
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p23:
+    MOV DX, offset c23
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm 
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p24:
+    MOV DX, offset c24
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil              
+    JMP ciklas
+p25:
+    MOV DX, offset c25
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil              
+    JMP ciklas
 
+p27:
+    MOV DX, offset c27
+    JMP pSpauzdinimas
 p28:                         
     MOV DX, offset c28
     MOV arw, 0000b  
@@ -610,6 +1180,79 @@ p2D:
     Call irasykBaita
     CALL rasykIsNaujEil              
     JMP ciklas
+    
+p2F:
+    MOV DX, offset c2F
+    JMP pSpauzdinimas
+p30:
+    MOV DX, offset c30
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p31:
+    MOV DX, offset c31
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p32:
+    MOV DX, offset c32
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm 
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p33:
+    MOV DX, offset c33
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykrm 
+    CALL rasykkableli    
+    CALL rasykreg
+    CALL rasykIsNaujEil       
+    JMP ciklas
+p34:
+    MOV DX, offset c34
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil              
+    JMP ciklas
+p35:
+    MOV DX, offset c35
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil              
+    JMP ciklas
+p37:
+    MOV DX, offset c37
+    JMP pSpauzdinimas
 p38:                         
     MOV DX, offset c38 
     MOV arw, 0000b  
@@ -655,6 +1298,8 @@ p3B:
     CALL rasykIsNaujEil        
     JMP ciklas    
 p3C:
+    MOV DX, offset c3C
+    MOV arw, 0000b 
     CALL irasyk                
     mov reg, al          
     CALL skaityk1baita 
@@ -663,7 +1308,9 @@ p3C:
     Call irasykBaita
     CALL rasykIsNaujEil      
     JMP ciklas
-p3D:    
+p3D:
+    MOV DX, offset c3D
+    MOV arw, 0000b     
     CALL irasyk                
     mov reg, al          
     CALL skaityk1baita 
@@ -675,7 +1322,75 @@ p3D:
     mov tmpB, "h"
     Call irasykBaita
     CALL rasykIsNaujEil      
-    JMP ciklas    
+    JMP ciklas
+p3F:    
+    MOV DX, offset c3F
+    JMP pSpauzdinimas
+p40:    
+    MOV DX, offset c40
+    JMP pSpauzdinimas
+p41:    
+    MOV DX, offset c41
+    JMP pSpauzdinimas
+p42:    
+    MOV DX, offset c42
+    JMP pSpauzdinimas
+p43:    
+    MOV DX, offset c43
+    JMP pSpauzdinimas
+p44:    
+    MOV DX, offset c44
+    JMP pSpauzdinimas
+p45:    
+    MOV DX, offset c45
+    JMP pSpauzdinimas
+p46:    
+    MOV DX, offset c46
+    JMP pSpauzdinimas
+p47:    
+    MOV DX, offset c47
+    JMP pSpauzdinimas
+p48:    
+    MOV DX, offset c48
+    JMP pSpauzdinimas
+p49:    
+    MOV DX, offset c49
+    JMP pSpauzdinimas
+p4A:    
+    MOV DX, offset c4A
+    JMP pSpauzdinimas
+p4B:    
+    MOV DX, offset c4B
+    JMP pSpauzdinimas
+p4C:    
+    MOV DX, offset c4C
+    JMP pSpauzdinimas
+p4D:    
+    MOV DX, offset c4D
+    JMP pSpauzdinimas
+p4E:    
+    MOV DX, offset c4E
+    JMP pSpauzdinimas
+p4F:    
+    MOV DX, offset c4F
+    JMP pSpauzdinimas
+
+parAcD4:
+    CALL skaityk1baita
+    CMP al, 0Ah
+    JE pD4
+parAcD5:
+    CALL skaityk1baita
+    CMP al, 0Ah
+    JE pD5
+    
+pD4:
+    MOV DX, offset cD40A
+    JMP pSpauzdinimas
+pD5:    
+    MOV DX, offset cD50A
+    JMP pSpauzdinimas
+         
 p50:                 
     MOV DX, offset c50
     JMP pSpauzdinimas
@@ -724,12 +1439,10 @@ p5E:
 p5F:
     MOV DX, offset c5F
     JMP pSpauzdinimas
-
 pSpauzdinimas:
     CALL irasyk        
     CALL rasykIsNaujEil
     JMP ciklas       
-
 p70:
     MOV DX, offset c70 
     jmp p7x
@@ -791,15 +1504,58 @@ p7x:
     Call irasykBaita
     CALL rasykIsNaujEil      
     JMP ciklas
+p84:
+    MOV DX, offset c84
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil      
+    JMP ciklas     
+p85:
+    MOV DX, offset c85
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil      
+    JMP ciklas
+p8D:
+    MOV DX, offset c8D
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil      
+    JMP ciklas 
 p8F:
     MOV DX, offset c8F
     MOV arw, 1000b  
     CALL irasyk 
     CALL skaityk1baita                 
     CALL setmodrmIRreg
+    CMP reg, 000h
+    JE p8F000        
+    JMP neatpazintac
+p8F000:
     CALL rasykrm
     CALL rasykIsNaujEil       
-    JMP ciklas 
+    JMP ciklas
+p98:
+    MOV DX, offset c98
+    JMP pSpauzdinimas
+p99:
+    MOV DX, offset c99
+    JMP pSpauzdinimas
 p9A:
     MOV DX, offset c9A
     MOV arw, 1000b  
@@ -814,10 +1570,26 @@ p9A:
     mov tmpB, "h"
     Call irasykBaita
     CALL rasykIsNaujEil
+    CALL skaityk1baita
+    CALL skaityk1baita
     JMP ciklas
 p9B:
     MOV DX, offset c9B
-    JMP pSpauzdinimas                     
+    JMP pSpauzdinimas
+    
+p9C:
+    MOV DX, offset c9C
+    JMP pSpauzdinimas    
+p9D:
+    MOV DX, offset c9D
+    JMP pSpauzdinimas    
+p9E:
+    MOV DX, offset c9E
+    JMP pSpauzdinimas    
+p9F:
+    MOV DX, offset c9F
+    JMP pSpauzdinimas    
+                       
 pA1:
     MOV DX, offset cA1
     MOV arw, 0000b
@@ -833,11 +1605,120 @@ pA1:
     Call irasykBaita
     CALL rasykIsNaujEil      
     JMP ciklas
-
-
-
-
-    
+pA4:
+    MOV DX, offset cA4
+    MOV arw, 0000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil                      
+    JMP ciklas     
+pA5:
+    MOV DX, offset cA5
+    MOV arw, 1000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil
+    JMP ciklas     
+pA6:
+    MOV DX, offset cA6
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil                      
+    JMP ciklas     
+pA7:    
+    MOV DX, offset cA7
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil
+    JMP ciklas           
+pA8:
+    MOV DX, offset cA8
+    MOV arw, 0000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil                      
+    JMP ciklas      
+pA9:
+    MOV DX, offset cA9
+    MOV arw, 1000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil
+    JMP ciklas    
+pAA:
+    MOV DX, offset cAA
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil                      
+    JMP ciklas 
+pAB:
+    MOV DX, offset cAB
+    MOV arw, 1000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil
+    JMP ciklas 
+pAC:
+    MOV DX, offset cAC
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil                      
+    JMP ciklas 
+pAD:
+    MOV DX, offset cAD
+    MOV arw, 1000b  
+    CALL irasyk
+    CALL rasykIsNaujEil
+    JMP ciklas 
+pAE:
+    MOV DX, offset cAE
+    MOV arw, 0000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil                      
+    JMP ciklas 
+pAF:
+    MOV DX, offset cAF
+    MOV arw, 1000b  
+    CALL irasyk 
+    mov reg, al
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil
+    JMP ciklas
 pB8:
     MOV DX, offset cB8
     MOV arw, 1000b
@@ -857,8 +1738,88 @@ pB8:
     Call irasykBaita
     CALL rasykIsNaujEil      
     JMP ciklas
+pC2:
+    MOV DX, offset cC2
+    MOV arw, 0000b  
+    CALL irasyk                
+    mov reg, al          
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil       
+    JMP ciklas
+pC3:
+    MOV DX, offset cC3
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil       
+    JMP ciklas
+pC4:
+    MOV DX, offset cC4
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+pC5:
+    MOV DX, offset cC5
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CALL rasykreg 
+    CALL rasykkableli    
+    CALL rasykrm
+    CALL rasykIsNaujEil       
+    JMP ciklas
+pCA:
+    MOV DX, offset cCA
+    MOV arw, 0000b  
+    CALL irasyk                
+    mov reg, al          
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil       
+    JMP ciklas
+pCB:
+    MOV DX, offset cCB
+    MOV arw, 0000b  
+    CALL irasyk 
+    CALL rasykIsNaujEil       
+    JMP ciklas
+pCD:    
+    MOV DX, offset cCD
+    MOV arw, 0000b
+    CALL irasyk                
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas    
+pCF:
+    MOV DX, offset cCF
+    JMP pSpauzdinimas
 
-    
+pD7:                  
+    MOV DX, offset cD7
+    JMP pSpauzdinimas
+
 MOVa:
     MOV DX, offset c8B
     MOV arw, 1000b
@@ -870,7 +1831,106 @@ MOVa:
     CALL rasykrm
     CALL rasykIsNaujEil      
     JMP ciklas
-
+pE0: 
+    MOV DX, offset cE0
+    MOV arw, 0000b
+    CALL irasyk                     
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas
+pE1:
+    MOV DX, offset cE1
+    MOV arw, 0000b
+    CALL irasyk                     
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas    
+pE2:
+    MOV DX, offset cE2
+    MOV arw, 0000b
+    CALL irasyk                     
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas    
+pE4:        
+    MOV DX, offset cE4  
+    mov reg, al         
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    mov tmpB, "h"       
+    Call irasykBaita    
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+pE5:                        
+    MOV DX, offset cE5  
+    mov reg, al         
+    CALL skaityk1baita  
+    push ax             
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    pop ax              
+    Call irasykASCIIisAL
+    mov tmpB, "h"       
+    Call irasykBaita    
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+pE6:
+    MOV DX, offset cE6  
+    mov reg, al         
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    mov tmpB, "h"       
+    Call irasykBaita    
+    CALL rasykIsNaujEil 
+    JMP ciklas          
+pE7:                        
+    MOV DX, offset cE7  
+    mov reg, al         
+    CALL skaityk1baita  
+    push ax             
+    CALL skaityk1baita  
+    Call irasykASCIIisAL
+    pop ax              
+    Call irasykASCIIisAL
+    mov tmpB, "h"       
+    Call irasykBaita    
+    CALL rasykIsNaujEil 
+    JMP ciklas            
+pE8:
+    MOV DX, offset cE8
+    MOV arw, 0000b
+    CALL irasyk                     
+    CALL skaityk1baita 
+    push ax
+    CALL skaityk1baita
+    Call irasykASCIIisAL
+    pop ax
+    Call irasykASCIIisAL
+    mov tmpB, "h"
+    Call irasykBaita
+    CALL rasykIsNaujEil      
+    JMP ciklas
 pE9:
     MOV DX, offset cE9
     MOV arw, 1000b
@@ -898,7 +1958,9 @@ pEA:
     Call irasykASCIIisAL
     mov tmpB, "h"
     Call irasykBaita
-    CALL rasykIsNaujEil      
+    CALL rasykIsNaujEil
+    CALL skaityk1baita
+    CALL skaityk1baita      
     JMP ciklas
 
 pEB:
@@ -915,12 +1977,29 @@ pEB:
     Call irasykBaita
     CALL rasykIsNaujEil      
     JMP ciklas
-
+pEC:
+    MOV DX, offset cEC
+    JMP pSpauzdinimas
+pED:
+    MOV DX, offset cED
+    JMP pSpauzdinimas
+pEE:
+    MOV DX, offset cEE
+    JMP pSpauzdinimas
+pEF:
+    MOV DX, offset cEF
+    JMP pSpauzdinimas
 pF0:
     MOV DX, offset cF0
     JMP pSpauzdinimas
 pF1:                  
     MOV DX, offset cF1
+    JMP pSpauzdinimas
+pF2:                  
+    MOV DX, offset cF2
+    JMP pSpauzdinimas
+pF3:                  
+    MOV DX, offset cF3
     JMP pSpauzdinimas
 pF4:
     MOV DX, offset cF4
@@ -943,11 +2022,77 @@ pFC:
 pFD:                  
     MOV DX, offset cFD
     JMP pSpauzdinimas
-    
-    
-    
-    
-
+pFE: 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CMP reg, 0h
+    JE  pFE000
+    CMP reg, 1h
+    JE  pFE001
+    JMP neatpazintac
+pFE000:
+    MOV DX, offset cFE000
+    mov arw, 0000b
+    CALL irasyk               
+    CALL rasykrm       
+    CALL rasykIsNaujEil      
+    JMP ciklas
+pFE001:
+    MOV DX, offset cFE001
+    mov arw, 0000b
+    CALL irasyk               
+    CALL rasykrm       
+    CALL rasykIsNaujEil      
+    JMP ciklas 
+pFF: 
+    CALL skaityk1baita                 
+    CALL setmodrmIRreg
+    CMP reg, 0h
+    JE  pFF000
+    CMP reg, 1h
+    JE  pFF001
+    CMP reg, 2h
+    JE  pFF010
+    CMP reg, 3h
+    JE  pFF011
+    CMP reg, 6h
+    JE  pFF110
+    JMP neatpazintac
+pFF000:
+    MOV DX, offset cFF000
+    mov arw, 1000b
+    CALL irasyk               
+    CALL rasykrm       
+    CALL rasykIsNaujEil      
+    JMP ciklas
+pFF001:
+    MOV DX, offset cFF001
+    mov arw, 1000b
+    CALL irasyk               
+    CALL rasykrm       
+    CALL rasykIsNaujEil      
+    JMP ciklas     
+pFF010:
+    MOV DX, offset cFF010
+    mov arw, 0000b
+    CALL irasyk               
+    CALL rasykrm       
+    CALL rasykIsNaujEil      
+    JMP ciklas 
+pFF011:
+    MOV DX, offset cFF011
+    mov arw, 0000b
+    CALL irasyk               
+    CALL rasykrm        
+    CALL rasykIsNaujEil      
+    JMP ciklas 
+pFF110:
+    MOV DX, offset cFF110
+    mov arw, 0000b
+    CALL irasyk               
+    CALL rasykrm    
+    CALL rasykIsNaujEil      
+    JMP ciklas  
 
 ;_____________________________________________________________
 ;PROCEDUROS
